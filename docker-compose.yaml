@@ -28,33 +28,6 @@ services:
       APP_NAME: "app-a"
     logging: *default-logging
 
-  app-b:
-    build: ./fastapi_app/
-    ports:
-      - "8001:8000"
-    depends_on:
-      - loki
-    environment:
-      APP_NAME: "app-b"
-    logging: *default-logging
-
-  app-c:
-    build: ./fastapi_app_plain/
-    ports:
-      - "8002:8000"
-    depends_on:
-      - loki
-    environment:
-      APP_NAME: "app-c"
-      OTEL_PYTHON_LOG_CORRELATION: "true"
-      OTEL_TRACES_EXPORTER: "otlp"
-      OTEL_EXPORTER_OTLP_ENDPOINT: "http://tempo:4317"
-      OTEL_METRICS_EXPORTER: "none"
-      OTEL_SERVICE_NAME: "app-c"
-      OTEL_RESOURCE_ATTRIBUTES: "compose_service=app-c"
-    command: "opentelemetry-instrument python main.py"
-    logging: *default-logging
-
   prometheus:
     image: prom/prometheus:v2.45.0
     ports:

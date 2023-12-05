@@ -1,0 +1,3 @@
+-r  fastapi_app/requirements.txt
+
+locust
